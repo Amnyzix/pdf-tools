@@ -1,0 +1,7 @@
+services:
+  pdf-suite:
+    build: .
+    container_name: pdf-local-suite
+    ports:
+      - "3000:3000"
+    restart: unless-stopped

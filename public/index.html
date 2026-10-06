@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Local Suite</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans min-h-screen">
+
+    <nav class="bg-white shadow-sm border-b border-gray-200 px-8 py-4 flex justify-between items-center">
+        <h1 data-view="home" class="text-xl font-bold text-blue-600 cursor-pointer flex items-center gap-2">
+            <i data-lucide="blocks"></i> My PDF Tools
+        </h1>
+        <div class="space-x-4">
+            <button data-view="merge" class="text-gray-600 hover:text-blue-600 font-medium">Merge</button>
+            <button data-view="split" class="text-gray-600 hover:text-blue-600 font-medium">Split</button>
+            <button data-view="img2pdf" class="text-gray-600 hover:text-blue-600 font-medium">Images to PDF</button>
+            <button data-view="organize" class="text-gray-600 hover:text-blue-600 font-medium">Organize</button>
+            <button data-view="compress" class="text-gray-600 hover:text-blue-600 font-medium">Compress</button>
+            <button data-view="vault" class="text-gray-600 hover:text-blue-600 font-medium">Secure</button>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto p-10">
+        
+        <section id="view-home" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div data-view="merge" class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-blue-500 hover:shadow-md cursor-pointer transition-all group">
+                <div class="mb-4 text-blue-500 bg-blue-50 w-14 h-14 flex items-center justify-center rounded-lg group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    <i data-lucide="copy-plus" class="w-8 h-8"></i>
+                </div>
+                <h2 class="text-xl font-bold group-hover:text-blue-600 transition-colors">Merge PDF</h2>
+                <p class="text-gray-500 mt-2">Combine several files into a single organized document.</p>
+            </div>
+            
+            <div data-view="split" class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-blue-500 hover:shadow-md cursor-pointer transition-all group">
+                <div class="mb-4 text-emerald-500 bg-emerald-50 w-14 h-14 flex items-center justify-center rounded-lg group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                    <i data-lucide="scissors" class="w-8 h-8"></i>
+                </div>
+                <h2 class="text-xl font-bold group-hover:text-emerald-600 transition-colors">Split / Extract</h2>
+                <p class="text-gray-500 mt-2">Extract specific pages visually.</p>
+            </div>
+
+            <div data-view="img2pdf" class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-blue-500 hover:shadow-md cursor-pointer transition-all group">
+                <div class="mb-4 text-orange-500 bg-orange-50 w-14 h-14 flex items-center justify-center rounded-lg group-hover:bg-orange-600 group-hover:text-white transition-colors">
+                    <i data-lucide="images" class="w-8 h-8"></i>
+                </div>
+                <h2 class="text-xl font-bold group-hover:text-orange-600 transition-colors">Images to PDF</h2>
+                <p class="text-gray-500 mt-2">Convert your photos (JPG/PNG) into a single PDF document.</p>
+            </div>
+
+            <div data-view="organize" class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-blue-500 hover:shadow-md cursor-pointer transition-all group">
+                <div class="mb-4 text-indigo-500 bg-indigo-50 w-14 h-14 flex items-center justify-center rounded-lg group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                    <i data-lucide="layout-grid" class="w-8 h-8"></i>
+                </div>
+                <h2 class="text-xl font-bold group-hover:text-indigo-600 transition-colors">Organize PDF</h2>
+                <p class="text-gray-500 mt-2">Reorder, rotate, or delete specific pages visually.</p>
+            </div>
+
+            <div data-view="compress" class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-blue-500 hover:shadow-md cursor-pointer transition-all group">
+                <div class="mb-4 text-purple-500 bg-purple-50 w-14 h-14 flex items-center justify-center rounded-lg group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                    <i data-lucide="minimize-2" class="w-8 h-8"></i>
+                </div>
+                <h2 class="text-xl font-bold group-hover:text-purple-600 transition-colors">Compress PDF</h2>
+                <p class="text-gray-500 mt-2">Reduce the size of your heavy documents.</p>
+            </div>
+
+            <div data-view="vault" class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-blue-500 hover:shadow-md cursor-pointer transition-all group">
+                <div class="mb-4 text-rose-500 bg-rose-50 w-14 h-14 flex items-center justify-center rounded-lg group-hover:bg-rose-600 group-hover:text-white transition-colors">
+                    <i data-lucide="lock" class="w-8 h-8"></i>
+                </div>
+                <h2 class="text-xl font-bold group-hover:text-rose-600 transition-colors">Vault (Security)</h2>
+                <p class="text-gray-500 mt-2">Add or remove a password from your PDF documents.</p>
+            </div>
+        </section>
+
+        <section id="view-merge" class="hidden animate-fadeIn">
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 max-w-3xl mx-auto">
+                <div class="flex items-center gap-3 mb-6">
+                    <i data-lucide="copy-plus" class="text-blue-600 w-7 h-7"></i>
+                    <h2 class="text-2xl font-bold">Merge your PDFs</h2>
+                </div>
+                <div data-file-trigger="mergeInput" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-gray-50 cursor-pointer hover:border-blue-400 transition-colors flex flex-col items-center justify-center">
+                    <i data-lucide="upload-cloud" class="text-gray-400 w-10 h-10 mb-2"></i>
+                    <input type="file" id="mergeInput" multiple accept="application/pdf" class="hidden">
+                    <span id="mergeLabel" class="text-blue-600 font-semibold">Click or drop PDF files here</span>
+                </div>
+                <ul id="mergeList" class="mt-4 space-y-2"></ul>
+                <button id="btnMergeAction" class="mt-6 w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition opacity-50 flex justify-center items-center gap-2" disabled>
+                    <i data-lucide="download"></i> Merge and Download
+                </button>
+            </div>
+        </section>
+
+        <section id="view-split" class="hidden animate-fadeIn">
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                <div class="flex items-center gap-3 mb-6">
+                    <i data-lucide="scissors" class="text-emerald-600 w-7 h-7"></i>
+                    <h2 class="text-2xl font-bold">Split or Extract pages</h2>
+                </div>
+                
+                <div id="splitUploadZone" data-file-trigger="splitInput" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-gray-50 cursor-pointer hover:border-emerald-400 transition-colors flex flex-col items-center justify-center max-w-3xl mx-auto">
+                    <i data-lucide="file-up" class="text-gray-400 w-10 h-10 mb-2"></i>
+                    <input type="file" id="splitInput" accept="application/pdf" class="hidden">
+                    <span class="text-emerald-600 font-semibold">Choose or drop a PDF to split</span>
+                </div>
+
+                <div id="splitWorkspace" class="hidden mt-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <div class="lg:col-span-4 space-y-5 sticky top-4 h-fit">
+                        <div class="p-4 bg-emerald-50 rounded-lg border border-emerald-100">
+                            <p id="splitFileInfo" class="font-medium text-emerald-800 break-words"></p>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold mb-2 text-gray-700">Pages to extract:</label>
+                            <input type="text" id="pagesToExtract" placeholder="E.g.: 1-3, 5" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none font-mono text-lg">
+                            <p class="text-xs text-gray-500 mt-2">Type the numbers or click on pages to the right.</p>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 flex justify-between items-center">
+                            <span class="font-semibold text-gray-700">Total selected:</span>
+                            <span id="selectedPagesCount" class="text-xl font-bold text-emerald-600">0</span>
+                        </div>
+
+                        <button id="btnSplitAction" class="w-full bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700 transition flex justify-center items-center gap-2 opacity-50 cursor-not-allowed" disabled>
+                            <i data-lucide="file-output"></i> Extract PDF
+                        </button>
+                    </div>
+
+                    <div class="lg:col-span-8 bg-gray-200 rounded-xl p-6 h-[700px] overflow-y-auto shadow-inner">
+                        <div id="previewColumn" class="flex flex-col items-center space-y-6"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-compress" class="hidden animate-fadeIn">
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 max-w-3xl mx-auto">
+                <div class="flex items-center gap-3 mb-6">
+                    <i data-lucide="minimize-2" class="text-purple-600 w-7 h-7"></i>
+                    <h2 class="text-2xl font-bold">Compress a PDF</h2>
+                </div>
+                
+                <div id="compressUploadZone" data-file-trigger="compressInput" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-gray-50 cursor-pointer hover:border-purple-400 transition-colors flex flex-col items-center justify-center">
+                    <i data-lucide="file-down" class="text-gray-400 w-10 h-10 mb-2"></i>
+                    <input type="file" id="compressInput" accept="application/pdf" class="hidden">
+                    <span class="text-purple-600 font-semibold">Choose or drop a heavy PDF to compress</span>
+                </div>
+
+                <div id="compressControls" class="hidden mt-6 space-y-6">
+                    <div class="p-4 bg-purple-50 rounded-lg border border-purple-100 flex justify-between items-center">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="file-archive" class="text-purple-600"></i>
+                            <p id="compressFileInfo" class="font-medium text-purple-800 truncate max-w-xs"></p>
+                        </div>
+                        <span id="compressOriginalSize" class="font-bold text-purple-700 bg-white px-3 py-1 rounded shadow-sm border border-purple-200"></span>
+                    </div>
+
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <label class="block text-sm font-semibold mb-4 text-gray-700">Compression level:</label>
+                        <input type="range" id="compressSlider" min="0.1" max="0.9" step="0.1" value="0.5" class="w-full accent-purple-600 cursor-pointer">
+                        <div class="flex justify-between text-xs text-gray-500 mt-2 font-medium">
+                            <span>High compression (Low quality)</span>
+                            <span id="compressQualityLabel" class="text-purple-600 font-bold text-sm">Medium quality</span>
+                            <span>Low compression (High quality)</span>
+                        </div>
+                    </div>
+
+                    <button id="btnCompressAction" class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition flex justify-center items-center gap-2">
+                        <i data-lucide="minimize"></i> Start compression
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-img2pdf" class="hidden animate-fadeIn">
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 max-w-3xl mx-auto">
+                <div class="flex items-center gap-3 mb-6">
+                    <i data-lucide="images" class="text-orange-600 w-7 h-7"></i>
+                    <h2 class="text-2xl font-bold">Convert Images to PDF</h2>
+                </div>
+
+                <div data-file-trigger="imgInput" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-gray-50 cursor-pointer hover:border-orange-400 transition-colors flex flex-col items-center justify-center">
+                    <i data-lucide="image-plus" class="text-gray-400 w-10 h-10 mb-2"></i>
+                    <input type="file" id="imgInput" multiple accept="image/png, image/jpeg" class="hidden">
+                    <span class="text-orange-600 font-semibold">Click or drop images (JPG, PNG)</span>
+                </div>
+
+                <div id="imgList" class="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
+
+                <button id="btnImgAction" class="mt-8 w-full bg-orange-600 text-white py-3 rounded-lg font-semibold hover:bg-orange-700 transition flex justify-center items-center gap-2 opacity-50 cursor-not-allowed" disabled>
+                    <i data-lucide="file-text"></i> Generate PDF
+                </button>
+            </div>
+        </section>
+
+        <section id="view-organize" class="hidden animate-fadeIn">
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="layout-grid" class="text-indigo-600 w-7 h-7"></i>
+                        <h2 class="text-2xl font-bold">Organize PDF Pages</h2>
+                    </div>
+                    <span id="organizePageCount" class="hidden text-sm font-semibold bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full"></span>
+                </div>
+
+                <div id="organizeUploadZone" data-file-trigger="organizeInput" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-gray-50 cursor-pointer hover:border-indigo-400 transition-colors flex flex-col items-center justify-center max-w-3xl mx-auto">
+                    <i data-lucide="file-up" class="text-gray-400 w-10 h-10 mb-2"></i>
+                    <input type="file" id="organizeInput" accept="application/pdf" class="hidden">
+                    <span class="text-indigo-600 font-semibold">Click or drop a PDF to organize</span>
+                </div>
+
+                <div id="organizeWorkspace" class="hidden mt-6 space-y-6">
+                    <p class="text-sm text-gray-500 text-center">Drag and drop pages to reorder. Hover a page to rotate or delete it.</p>
+                    
+                    <div id="organizeGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 bg-gray-100 p-6 rounded-xl max-h-[650px] overflow-y-auto shadow-inner"></div>
+
+                    <div class="flex justify-end gap-4">
+                        <button id="btnOrganizeCancel" class="px-6 py-3 rounded-lg font-semibold text-gray-600 bg-gray-200 hover:bg-gray-300 transition">
+                            Cancel
+                        </button>
+                        <button id="btnOrganizeAction" class="px-8 bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition flex justify-center items-center gap-2">
+                            <i data-lucide="save"></i> Save Organized PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="view-vault" class="hidden animate-fadeIn">
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 max-w-4xl mx-auto">
+                <div class="flex items-center gap-3 mb-8">
+                    <i data-lucide="shield-check" class="text-rose-600 w-7 h-7"></i>
+                    <h2 class="text-2xl font-bold">PDF Vault</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div id="lockCard" class="p-6 bg-rose-50 rounded-xl border border-rose-100 transition-all">
+                        <h3 class="text-lg font-bold text-rose-900 mb-2 flex items-center gap-2">
+                            <i data-lucide="lock" class="w-5 h-5"></i> Lock a PDF
+                        </h3>
+                        <p class="text-sm text-rose-700 mb-6">Add a password to protect the file.</p>
+                        
+                        <div class="mb-4">
+                            <input type="file" id="lockInput" accept="application/pdf" class="hidden">
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <button type="button" data-file-trigger="lockInput" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-rose-200 bg-rose-100 text-sm font-semibold text-rose-700 hover:bg-rose-200 transition cursor-pointer">
+                                    <i data-lucide="file-up" class="w-4 h-4"></i> Choose file
+                                </button>
+                                <span id="lockInputLabel" class="text-sm text-rose-700 truncate">No file selected</span>
+                            </div>
+                        </div>
+                        
+                        <input type="password" id="lockPassword" placeholder="Enter a strong password" class="w-full p-3 border border-rose-200 rounded-lg focus:ring-2 focus:ring-rose-500 outline-none mb-4">
+                        
+                        <button id="btnLockAction" class="w-full bg-rose-600 text-white py-3 rounded-lg font-semibold hover:bg-rose-700 transition flex justify-center items-center gap-2">
+                            <i data-lucide="shield"></i> Lock and Download
+                        </button>
+                    </div>
+
+                    <div id="unlockCard" class="p-6 bg-emerald-50 rounded-xl border border-emerald-100 transition-all">
+                        <h3 class="text-lg font-bold text-emerald-900 mb-2 flex items-center gap-2">
+                            <i data-lucide="unlock" class="w-5 h-5"></i> Unlock a PDF
+                        </h3>
+                        <p class="text-sm text-emerald-700 mb-6">Remove the password from a document permanently.</p>
+                        
+                        <div class="mb-4">
+                            <input type="file" id="unlockInput" accept="application/pdf" class="hidden">
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <button type="button" data-file-trigger="unlockInput" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-200 bg-emerald-100 text-sm font-semibold text-emerald-700 hover:bg-emerald-200 transition cursor-pointer">
+                                    <i data-lucide="file-up" class="w-4 h-4"></i> Choose file
+                                </button>
+                                <span id="unlockInputLabel" class="text-sm text-emerald-700 truncate">No file selected</span>
+                            </div>
+                        </div>
+                        
+                        <input type="password" id="unlockPassword" placeholder="Current document password" class="w-full p-3 border border-emerald-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none mb-4">
+                        
+                        <button id="btnUnlockAction" class="w-full bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700 transition flex justify-center items-center gap-2">
+                            <i data-lucide="key"></i> Remove password
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script type="module" src="/js/main.js"></script>
+</body>
+</html>

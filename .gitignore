@@ -1,0 +1,9 @@
+node_modules/
+
+doc/
+
+.vscode/
+
+DS_Store\
+
+.log
