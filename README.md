@@ -95,7 +95,7 @@ sudo apt update && sudo apt install ghostscript qpdf -y
 ### 2. Clone and Start the Server
 
 ```bash
-git clone [https://github.com/amnyzix/pdf-tools.git](https://github.com/amnyzix/pdf-tools.git)
+git clone https://github.com/amnyzix/pdf-tools.git
 cd pdf-tools
 npm install
 node server.js
